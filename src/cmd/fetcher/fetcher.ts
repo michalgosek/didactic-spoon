@@ -1,4 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
+import { Person } from './types';
+ 
 const app = axios.create({ timeout: 50000 }); // 5s 
 
 async function fetchUsersData(n: Number, size: Number) {
@@ -16,27 +18,7 @@ async function fetchUsersData(n: Number, size: Number) {
     });
 }
 
-type Person  = {
-    id: string,
-    first_name: string,
-    last_name: string,
-    email: string,
-    gender: string,
-    employment: {
-        title: string,
-        key_skill: string,
-    },
-    address: {
-        city: string,
-        street_name: string,
-        street_address: string,
-        zip_code: string,
-        state: string,
-        country: string,
-    },
-}
-
-async function convertUsersDataToPersonArray(data: any[]) {
+export async function convertUsersDataToPersonArray(data: any[]) {
     const users : Person[] = [];
     data.forEach(u => {  
         const person : Person = {
@@ -71,7 +53,3 @@ async function FetchDataFromAPI() {
 }
 
 FetchDataFromAPI();
-
-export default {
-    convertUsersDataToPersonArray, 
-};

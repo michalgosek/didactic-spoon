@@ -1,5 +1,4 @@
-import fetcher from './fetcher';
-
+import * as fetcher from './fetcher';
 
 test('positive_should_convert_JSON_user_format_data_to_own_person_type_array', async () => {
     // given:
