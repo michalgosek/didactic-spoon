@@ -1,0 +1,39 @@
+{
+    "name": "didactic-spoon",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon src/http/server.ts",
+        "build": "rm -rf build/ && prettier --write source/ && tsc",
+        "fetch": "ts-node src/cmd/fetcher/fetcher.ts",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/michalgosek/didactic-spoon.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/michalgosek/didactic-spoon/issues"
+    },
+    "homepage": "https://github.com/michalgosek/didactic-spoon#readme",
+    "dependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/express": "^4.17.13",
+        "@types/morgan": "^1.9.3",
+        "axios": "^0.21.4",
+        "express": "^4.17.1",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.12",
+        "ts-node": "^10.2.1"
+    },
+    "devDependencies": {
+        "@types/jest": "^27.0.1",
+        "jest": "^27.2.0",
+        "ts-jest": "^27.0.5",
+        "typescript": "^4.4.3"
+    }
+}
