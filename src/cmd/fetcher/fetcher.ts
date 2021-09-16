@@ -1,16 +1,21 @@
 import axios from 'axios';
 import * as mongo from '../../mongodb/mongodb';
 import UserModel, { IUser } from '../../mongodb/schema';
- 
-const app = axios.create({ timeout: 50000 }); // 5s 
+import { config } from "../../config/config";
 
-async function fetchUsersBatchFromAPI(n: Number, size: Number) {
+
+const app = axios.create({ timeout: config.get().fetcher.timeout }); 
+
+async function fetchUsersBatchFromAPI() {
     console.log('fetching random user data from API started...');
     const promises: any[] = [];
 
+    const n = config.get().fetcher.times;
+    const url = config.get().fetcher.url;
+  
     for (let i = 0; i < n; i++) {
-        console.log(`fetching batch with size ${size} no ${i + 1}`);
-        promises.push(app.get(`https://random-data-api.com/api/users/random_user?size=${size}`).then((res: any) => { return res.data }));
+        console.log(`fetching batch with size attempt no. ${i + 1}`);
+        promises.push(app.get(url).then((res: any) => { return res.data }));
     }
 
     console.log('fetching random user data from API finished...');
@@ -47,7 +52,7 @@ export async function convertAPIResponseToArray(data: any[]) {
 }
 
 async function Run() {
-    const data = await fetchUsersBatchFromAPI(10, 100);
+    const data = await fetchUsersBatchFromAPI();
     const users = await convertAPIResponseToArray(data);
 
     const keySkills = new Set();

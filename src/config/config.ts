@@ -32,15 +32,31 @@ export const config = convict({
       format: String,
       default: 'mydb'
     }
+  },
+  fetcher: {
+    timeout: {
+      doc: 'Timeout for sending requests',
+      format: Number,
+      default: 50000,
+    },
+    url: {
+      doc: 'API url for fetching data',
+      format: 'url',
+      default: 'https://random-data-api.com/api/users/random_user?size=100',
+    },
+    times: {
+      doc: 'How many times fetcher should send the request',
+      format: Number,
+      default: 10,
+    }
   }
 });
 
 // Load environment dependent configuration
 const env = config.get('env');
 config.loadFile(path.join(__dirname, `config-${env}.json`));
- 
+
 
 // Perform validation
-config.validate({allowed: 'strict'});
+config.validate({ allowed: 'strict' });
 
- 
