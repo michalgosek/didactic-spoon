@@ -1,6 +1,6 @@
 import convict from 'convict';
 import path from 'path';
-
+ 
 export const config = convict({
   env: {
     doc: 'The application environment.',
@@ -56,7 +56,5 @@ export const config = convict({
 const env = config.get('env');
 config.loadFile(path.join(__dirname, `config-${env}.json`));
 
-
 // Perform validation
 config.validate({ allowed: 'strict' });
-

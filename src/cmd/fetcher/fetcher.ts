@@ -1,7 +1,7 @@
 import axios from 'axios';
 import converters from './converters';
 import { IUserDocument } from '../../mongodb/schema';
-import { DataSource, ConnectDataSource, DisconnectDataSource } from '../../mongodb/service';
+import { MongoDB, DisconnectDataSource } from '../../mongodb/service';
 import { config } from "../../config/config";
 
 const app = axios.create({ timeout: config.get().fetcher.timeout });
@@ -23,35 +23,30 @@ async function fetchUsersBatchFromAPI() {
 }
 
 async function Run() {
-    await ConnectDataSource().then(() => {
-        fetchUsersBatchFromAPI().then((data) => {
-            const usersArray: IUserDocument[] = converters.convertAPIResponseToArray(data)
-            const keySkills = new Set();
-            usersArray.forEach(u => keySkills.add(u.employment.key_skill));
-            DataSource.InsertUsers(usersArray)
-                .then(() => {
-                    DisconnectDataSource().catch((err: Error) => {
-                        console.log('DisconnectDataSource failed');
-                        console.log('Reason: ', err.message);
-                    })
+    fetchUsersBatchFromAPI().then((data) => {
+        const usersArray: IUserDocument[] = converters.convertAPIResponseToArray(data)
+        const keySkills = new Set();
+        usersArray.forEach(u => keySkills.add(u.employment.key_skill));
+        MongoDB.InsertUsers(usersArray)
+            .then(() => {
+                DisconnectDataSource().catch((err: Error) => {
+                    console.log('DisconnectDataSource failed');
+                    console.log('Reason: ', err.message);
                 })
-                .catch((err: Error) => {
-                    console.log("InsertUsers failed");
-                    console.log("Reason:", err.message)
-                    return err;
-                })
-                .catch((err: Error) => {
-                    console.log("convertAPIResponseToArray failed");
-                    console.log("Reason:", err.message)
-                })
-        }).catch((err: Error) => {
-            console.log("fetchUsersBatchFromAPI failed");
-            console.log("Reason:", err.message)
-        })
+            })
+            .catch((err: Error) => {
+                console.log("InsertUsers failed");
+                console.log("Reason:", err.message)
+                return err;
+            })
+            .catch((err: Error) => {
+                console.log("convertAPIResponseToArray failed");
+                console.log("Reason:", err.message)
+            })
     }).catch((err: Error) => {
-        console.log('ConnectDataSource failed');
-        console.log('Reason: ', err.message);
-    });
+        console.log("fetchUsersBatchFromAPI failed");
+        console.log("Reason:", err.message)
+    })
 }
 
 Run();

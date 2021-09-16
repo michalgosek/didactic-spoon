@@ -1,17 +1,17 @@
 import { IUser, UserRepository } from '../repositories/user'
 
-type UserDependecies = {
+export type UserDependecies = {
     usersRepository: UserRepository
 }
 
-export const userService = (dependecies: UserDependecies) => {
-    const getAllUsers = async (): Promise<IUser[]> => {
-        return await dependecies.usersRepository.GetAllUsers().then((users: IUser[]) => {
-            return users
-        });
-    };
+export const UserService = (dependecies: UserDependecies) => {
+    const GetAllUsers = async (): Promise<IUser[]> => { return await dependecies.usersRepository.GetAllUsers().then((users: IUser[]) => { return users }) };
+    const InsertUsers = async (users: IUser[]): Promise<Boolean> => { return false };
+    const GetAllKeySkills = async () : Promise<String[]> => { return await dependecies.usersRepository.GetAllKeySkills().then((skills: String[]) => { return skills }) }
     return {
-        getAllUsers,
+        GetAllUsers,
+        InsertUsers,
+        GetAllKeySkills
     };
 }
 

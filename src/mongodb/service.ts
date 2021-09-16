@@ -10,26 +10,14 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
 };
 
-export async function GracefulShutdown() {
-  process.on('SIGINT', function() {
-    mongoose.connection.close(function () {
-      console.log('Mongoose disconnected on app termination');
-      process.exit(0);
-    });
-  });
-}
-
-export async function ConnectDataSource() {
-    mongoose.connect(config.get().db.host, options)
-        .then(result => {
-            console.info("Mongoose client successfully connected...");
-            console.log("Loaded config: ", config.get().db)
-        }).catch((err: Error) => {
-            console.error("There was an error during Mongoose connection");
-            console.error("Reason:", err.message);
-            return err;
-        });
-}
+mongoose.connect(config.get().db.host, options).then(result => {
+    console.info("Mongoose client successfully connected...");
+    console.log("Loaded config: ", config.get().db)
+}).catch((err: Error) => {
+    console.error("There was an error during Mongoose connection");
+    console.error("Reason:", err.message);
+    return err;
+});
 
 export async function DisconnectDataSource() {
     mongoose.disconnect()
@@ -43,19 +31,19 @@ export async function DisconnectDataSource() {
         });
 }
 
-export const DataSource: UserRepository = {
-    InsertUsers(users: IUser[]): Promise<Boolean> {
-        return User.insertMany(users).then(() => {
-            console.log(`Inserted sucessfully ${users.length} documents.`);
-            return true
+export const MongoDB: UserRepository = {
+    InsertUsers: function (data: IUser[]): Promise<Boolean> {
+        return User.insertMany(data).then(() => {
+            console.log(`Inserted sucessfully ${data.length} documents.`);
+            return true;
         })
             .catch((err: Error) => {
                 console.log("There was an error druing users insertion");
                 console.log(err);
-                return false
-            })
+                return false;
+            });
     },
-    async GetAllUsers(): Promise<IUser[]> {
+    GetAllUsers: async function (): Promise<IUser[]> {
         const IUsers: IUser[] = [];
         await User.find().exec().then((users: IUserDocument[]) => {
             users.forEach((user: IUserDocument) => {
@@ -76,10 +64,15 @@ export const DataSource: UserRepository = {
                         state: user.address.state,
                         country: user.address.country,
                     },
-                }
-                IUsers.push(converted)
-            })
-        })
+                };
+                IUsers.push(converted);
+            });
+        });
         return IUsers;
+    },
+    GetAllKeySkills: async function (): Promise<String[]> {
+        return await User.find().exec().then((users: IUserDocument[]) => {
+            return users.map((u: IUserDocument) => { return u.employment.key_skill });
+        });
     }
 };

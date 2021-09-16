@@ -17,8 +17,8 @@ export interface IUser  {
     },
 }
 
-
 export interface UserRepository {
-    GetAllUsers(): Promise<IUser[]>,
-    InsertUsers(data : IUser[]): Promise<Boolean>, 
+    GetAllUsers(): Promise<IUser[]>
+    InsertUsers(data : IUser[]): Promise<Boolean>
+    GetAllKeySkills(): Promise<String[]>
 }
