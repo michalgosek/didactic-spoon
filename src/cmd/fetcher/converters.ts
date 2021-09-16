@@ -4,7 +4,7 @@ function convertAPIResponseToArray(data: any[]) {
     const users: IUserDocument[] = [];
     data.forEach((u: any) => {
         const single: IUserDocument = new User({
-            id: u.id,
+            uuid: u.id,
             first_name: u.first_name,
             last_name: u.last_name,
             email: u.email,
@@ -19,7 +19,7 @@ function convertAPIResponseToArray(data: any[]) {
                 street_address: u.address.street_address,
                 zip_code: u.address.zip_code,
                 state: u.address.state,
-                country: u.address.state,
+                country: u.address.country,
             },
         })
         users.push(single);

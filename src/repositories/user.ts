@@ -1,4 +1,5 @@
 export interface IUser  {
+    uuid: number,
     first_name: string,
     last_name: string,
     email: string,
@@ -21,4 +22,5 @@ export interface UserRepository {
     GetAllUsers(): Promise<IUser[]>
     InsertUsers(data : IUser[]): Promise<Boolean>
     GetAllKeySkills(): Promise<String[]>
+    GetUsersByState(state : String): Promise<IUser[]>
 }

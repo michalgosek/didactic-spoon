@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { IUser } from '../repositories/user';
-
 interface IUserLister {
     GetAllUsers(): Promise<IUser[]>
 }
@@ -8,9 +7,9 @@ interface IUserLister {
 export const GetAllUsersHandler = (service: IUserLister) => {
     return async (req: Request, res: Response) => {
         try {
-            const data = await service.GetAllUsers().catch((err: Error) => { return err });
+            const data = await service.GetAllUsers();
             return res.status(200).json({
-                users: JSON.stringify(data, null, "  ")
+                users: data
             });
         } catch (err) {
             return res.status(500).json({
@@ -27,9 +26,35 @@ interface IKeySkillLister {
 export const GetAllKeySkill = (service: IKeySkillLister) => {
     return async (req: Request, res: Response) => {
         try {
-            const data = await service.GetAllKeySkills().catch((err: Error) => { return err });
+            const data = await service.GetAllKeySkills();
             return res.status(200).json({
-                skills: JSON.stringify(data, null, "  ")
+                skills: data
+            });
+        } catch (err) {
+            return res.status(500).json({
+                message: 'InternalServerError'
+            });
+        }
+    };
+};
+
+interface IUserCountryLister {
+    GetUsersByState(state : String): Promise<IUser[]>
+}
+
+export const GetUsersByState = (service: IUserCountryLister) => {
+    return async (req: Request, res: Response) => {
+        try {
+            if (req.query.name == undefined)  {
+                return res.status(500).json({
+                    Error: 'Provide state name query value was undefined',
+                    ExampleCURL: 'curl localhost:6060/v1/users/address?name=united states'
+                });
+            }
+            const state = req.query.name?.toString();
+            const data = await service.GetUsersByState(state);
+            return res.status(200).json({
+                users: data
             });
         } catch (err) {
             return res.status(500).json({
@@ -42,12 +67,5 @@ export const GetAllKeySkill = (service: IKeySkillLister) => {
 export default {
     GetAllUsersHandler,
     GetAllKeySkill,
+    GetUsersByState, 
 }
-
-
-
-
-
-
-
-

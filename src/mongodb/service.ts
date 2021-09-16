@@ -48,6 +48,7 @@ export const MongoDB: UserRepository = {
         await User.find().exec().then((users: IUserDocument[]) => {
             users.forEach((user: IUserDocument) => {
                 const converted: IUser = {
+                    uuid: user.uuid,
                     first_name: user.first_name,
                     last_name: user.last_name,
                     email: user.email,
@@ -71,8 +72,40 @@ export const MongoDB: UserRepository = {
         return IUsers;
     },
     GetAllKeySkills: async function (): Promise<String[]> {
-        return await User.find().exec().then((users: IUserDocument[]) => {
-            return users.map((u: IUserDocument) => { return u.employment.key_skill });
+        let skills : String[] = []
+        await User.find().exec().then((users: IUserDocument[]) => {
+            skills = users.map((u: IUserDocument) => { return u.employment.key_skill; });
         });
+        return skills; 
+    },
+    GetUsersByState: async function (state: String): Promise<IUser[]> {
+        const IUsers: IUser[] = [];
+        await User.find().exec().then((users: IUserDocument[]) => {
+            users.forEach((user: IUserDocument) => {
+                if (user.address.state == state) {
+                    const converted: IUser = {
+                        uuid: user.uuid,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        email: user.email,
+                        gender: user.gender,
+                        employment: {
+                            title: user.employment.title,
+                            key_skill: user.employment.key_skill,
+                        },
+                        address: {
+                            city: user.address.city,
+                            street_name: user.address.street_name,
+                            street_address: user.address.street_address,
+                            zip_code: user.address.zip_code,
+                            state: user.address.state,
+                            country: user.address.country,
+                        },
+                    };
+                    IUsers.push(converted);
+                }
+            });
+        });
+        return IUsers;
     }
 };
