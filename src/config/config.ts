@@ -30,7 +30,7 @@ export const config = convict({
     name: {
       doc: 'Database name',
       format: String,
-      default: 'didactic_spoon'
+      default: 'mydb'
     }
   }
 });

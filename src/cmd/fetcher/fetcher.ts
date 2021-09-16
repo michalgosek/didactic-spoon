@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { Person } from './types';
+import * as mongo from '../../mongodb/mongodb';
+import UserModel, { IUser } from '../../mongodb/schema';
  
 const app = axios.create({ timeout: 50000 }); // 5s 
 
-async function fetchUsersData(n: Number, size: Number) {
+async function fetchUsersBatchFromAPI(n: Number, size: Number) {
     console.log('fetching random user data from API started...');
     const promises: any[] = [];
 
@@ -18,10 +19,10 @@ async function fetchUsersData(n: Number, size: Number) {
     });
 }
 
-export async function convertUsersDataToPersonArray(data: any[]) {
-    const users : Person[] = [];
-    data.forEach(u => {  
-        const person : Person = {
+export async function convertAPIResponseToArray(data: any[]) {
+    const users: IUser[] = [];
+    data.forEach((u: any) => {
+        const single: IUser = new UserModel({
             id: u.id,
             first_name: u.first_name,
             last_name: u.last_name,
@@ -39,17 +40,29 @@ export async function convertUsersDataToPersonArray(data: any[]) {
                 state: u.address.state,
                 country: u.address.state,
             },
-        }
-        users.push(person);
+        })
+        users.push(single);
     });
-    return users; 
+    return users;
 }
 
-async function FetchDataFromAPI() {
-    const data = await fetchUsersData(1, 1);
-    const users = await convertUsersDataToPersonArray(data);
+async function Run() {
+    const data = await fetchUsersBatchFromAPI(10, 100);
+    const users = await convertAPIResponseToArray(data);
+
     const keySkills = new Set();
     users.forEach(u => keySkills.add(u.employment.key_skill));
+
+    mongo.Connect().then(() => {
+        UserModel.insertMany(users)
+            .then(() => console.log(`Inserted sucessfully ${users.length} documents into the MongoDB.`))
+            .catch((err: Error) => console.log("MongoDB insertion err: ", err.message))
+            .finally(() => {
+                mongo.Disconnect()
+                    .catch((err: Error) => console.log("MongoDB disconnect error: ", err.message))
+            })
+    })
+        .catch((err: Error) => console.log("MongoDB Connection error:", err.message));
 }
 
-FetchDataFromAPI();
+Run();

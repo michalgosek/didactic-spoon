@@ -1,9 +1,26 @@
-import moongose, { Schema } from 'mongoose';
-import IPerson from '../interfaces/person';
+import mongoose, { Schema } from 'mongoose';
 
-const PersonSchema: Schema = new Schema(
+export interface IUser extends Document {
+    first_name: string,
+    last_name: string,
+    email: string,
+    gender: string,
+    employment: {
+        title: string,
+        key_skill: string,
+    },
+    address: {
+        city: string,
+        street_name: string,
+        street_address: string,
+        zip_code: string,
+        state: string,
+        country: string,
+    },
+}
+
+const UserSchema: Schema = new Schema(
     {
-        id: { type: String, required: true },
         first_name: { type: String, required: true },
         last_name: { type: String, required: true },
         email: { type: String, required: true },
@@ -23,7 +40,8 @@ const PersonSchema: Schema = new Schema(
     },
     {
         timestamps: true,
+        collection: 'users',
     }
 );
 
-export default moongose.model<IPerson>('Person', PersonSchema);
+export default mongoose.model<IUser>('UserModel', UserSchema);
