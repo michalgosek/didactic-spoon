@@ -8,7 +8,6 @@ const app = axios.create({ timeout: config.get().fetcher.timeout });
 
 async function fetchUsersBatchFromAPI() {
     console.log('fetching random user data from API started...');
-
     const promises: any[] = [];
     const n = config.get().fetcher.times;
     const url = config.get().fetcher.url;
