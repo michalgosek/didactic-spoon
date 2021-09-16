@@ -1,4 +1,6 @@
-import * as fetcher from './fetcher';
+import { IUserDocument } from '../../mongodb/schema';
+import converters from './converters';
+ 
 
 test('positive_should_convert_JSON_user_format_data_to_own_person_type_array', async () => {
     // given:
@@ -39,7 +41,7 @@ test('positive_should_convert_JSON_user_format_data_to_own_person_type_array', a
         }
     ]
     // when 
-    const got: any[] = await fetcher.convertUsersDataToPersonArray(input);
+    const got: IUserDocument[] = converters.convertAPIResponseToArray(input);
 
     // then:
     expect(got.length).toEqual(1);
