@@ -17,4 +17,3 @@ export type Person  = {
         country: string,
     },
 }
-

@@ -19,7 +19,3 @@ export default interface IPerson extends Document {
         country: string,
     },
 }
-
-export {
-    IPerson
-}
