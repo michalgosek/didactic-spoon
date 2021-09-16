@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "nodemon src/http/server.ts",
         "build": "rm -rf build/ && prettier --write source/ && tsc",
-        "fetch": "ts-node src/cmd/fetcher/fetcher.ts",
+        "fetcher": "ts-node src/cmd/fetcher/fetcher.ts",
         "test": "jest"
     },
     "repository": {
@@ -31,6 +31,7 @@
         "mongoose": "^6.0.6",
         "morgan": "^1.10.0",
         "nodemon": "^2.0.12",
+        "run-func": "^1.0.5",
         "ts-node": "^10.2.1"
     },
     "devDependencies": {
