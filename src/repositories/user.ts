@@ -23,4 +23,5 @@ export interface UserRepository {
     InsertUsers(data : IUser[]): Promise<Boolean>
     GetAllKeySkills(): Promise<String[]>
     GetUsersByState(state : String): Promise<IUser[]>
+    GetUsersByCity(city: String): Promise<IUser[]>
 }

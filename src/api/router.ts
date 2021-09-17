@@ -13,10 +13,11 @@ function CreateRouter(userService: UserRepository): Express {
     /** Takes care of JSON data */
     router.use(express.json());
         
-    /** Routes */
+    /** Routes - it will be good to create some router group for common prefix endpoint */ 
     router.get('/v1/users', handlers.GetAllUsersHandler(userService));
-    router.post('/v1/users/states', handlers.GetUsersByState(userService));
     router.get('/v1/users/skills', handlers.GetAllKeySkill(userService));
+    router.post('/v1/users/state', handlers.GetUsersByState(userService));
+    router.post('/v1/users/city', handlers.GetUsersByCity(userService));
 
     /** Middlewares */
     router.use(middleware.NotFoundMiddleware);

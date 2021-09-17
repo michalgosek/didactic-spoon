@@ -44,68 +44,63 @@ export const MongoDB: UserRepository = {
             });
     },
     GetAllUsers: async function (): Promise<IUser[]> {
-        const IUsers: IUser[] = [];
-        await User.find().exec().then((users: IUserDocument[]) => {
-            users.forEach((user: IUserDocument) => {
-                const converted: IUser = {
-                    uuid: user.uuid,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    email: user.email,
-                    gender: user.gender,
-                    employment: {
-                        title: user.employment.title,
-                        key_skill: user.employment.key_skill,
-                    },
-                    address: {
-                        city: user.address.city,
-                        street_name: user.address.street_name,
-                        street_address: user.address.street_address,
-                        zip_code: user.address.zip_code,
-                        state: user.address.state,
-                        country: user.address.country,
-                    },
-                };
-                IUsers.push(converted);
-            });
+        let users: IUser[] = [];
+        await User.find().exec().then((docs: IUserDocument[]) => {
+            users = convertUserDocumentsToIUserArray(docs);
         });
-        return IUsers;
+        return users;
     },
     GetAllKeySkills: async function (): Promise<String[]> {
-        let skills: String[] = []
+        let skills: String[] = [];
         await User.find().exec().then((users: IUserDocument[]) => {
             skills = users.map((u: IUserDocument) => { return u.employment.key_skill; });
         });
         return skills;
     },
+
     GetUsersByState: async function (state: String): Promise<IUser[]> {
-        const IUsers: IUser[] = [];
-        await User.find({"address.state": state})
+        let users: IUser[] = [];
+        await User.find({ "address.state": state })
             .exec()
-            .then((users: IUserDocument[]) => {
-                users.forEach((user: IUserDocument) => {
-                    const converted: IUser = {
-                        uuid: user.uuid,
-                        first_name: user.first_name,
-                        last_name: user.last_name,
-                        email: user.email,
-                        gender: user.gender,
-                        employment: {
-                            title: user.employment.title,
-                            key_skill: user.employment.key_skill,
-                        },
-                        address: {
-                            city: user.address.city,
-                            street_name: user.address.street_name,
-                            street_address: user.address.street_address,
-                            zip_code: user.address.zip_code,
-                            state: user.address.state,
-                            country: user.address.country,
-                        },
-                    };
-                    IUsers.push(converted);
-                });
+            .then((docs: IUserDocument[]) => {
+                users = convertUserDocumentsToIUserArray(docs);
             });
-        return IUsers;
+        return users;
+    },
+    GetUsersByCity: async function (city: String): Promise<IUser[]> {
+        let users: IUser[] = [];
+        await User.find({ "address.city": city })
+            .exec()
+            .then((docs: IUserDocument[]) => {
+                users = convertUserDocumentsToIUserArray(docs);
+            });
+        return users;
     }
 };
+
+function convertUserDocumentsToIUserArray(docs: IUserDocument[]): IUser[] {
+    const users: IUser[] = [];
+    docs.forEach((user: IUserDocument) => {
+        const converted: IUser = {
+            uuid: user.uuid,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            gender: user.gender,
+            employment: {
+                title: user.employment.title,
+                key_skill: user.employment.key_skill,
+            },
+            address: {
+                city: user.address.city,
+                street_name: user.address.street_name,
+                street_address: user.address.street_address,
+                zip_code: user.address.zip_code,
+                state: user.address.state,
+                country: user.address.country,
+            },
+        };
+        users.push(converted);
+    });
+    return users;
+}

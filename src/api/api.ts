@@ -11,5 +11,6 @@ export interface IKeySkillLister {
 export interface IUserCountryLister {
     GetUsersByState(state: String): Promise<IUser[]>
 }
-
- 
+export interface IUserCityLister {
+    GetUsersByCity(city: String): Promise<IUser[]>
+}

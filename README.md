@@ -117,7 +117,7 @@ Expected output:
 Name query parameter is required.
 Example:
 ```curl
-curl localhost:6060/v1/users/states -d '{"name":"New Hampshire"}' -H "Content-Type: application/json"
+curl localhost:6060/v1/users/state -d '{"name":"New Hampshire"}' -H "Content-Type: application/json"
 ```
 
 Request body: 
@@ -152,6 +152,47 @@ Expected output:
       }
    ]
 }
+```
+
+
+## Listing users by city:
+
+Name query parameter is required.
+Example:
+```curl
+curl localhost:6060/v1/users/city -d '{"name":"Dannieville"}' -H "Content-Type: application/json"
+```
+
+Request body: 
+```json
+{
+   "name":"Dannieville"
+}
+```
+
+Expected output:
+```json
+ [
+    {
+        "uuid": 8879,
+        "first_name": "Terica",
+        "last_name": "Reichel",
+        "email": "terica.reichel@email.com",
+        "gender": "Female",
+        "employment": {
+            "title": "Investor Engineer",
+            "key_skill": "Work under pressure"
+        },
+        "address": {
+            "city": "Dannieville",
+            "street_name": "Kerrie Divide",
+            "street_address": "935 Kub Junction",
+            "zip_code": "73756",
+            "state": "Florida",
+            "country": "United States"
+        }
+    }
+]
 ```
 
 ## Listing all key skills:

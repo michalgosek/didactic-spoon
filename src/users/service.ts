@@ -16,11 +16,20 @@ export const UserService = (dependecies: UserDependecies) => {
         }
         return await dependecies.usersRepository.GetUsersByState(state).then((users: IUser[]) => users);
     }
+    const GetUsersByCity = async (city: String): Promise<IUser[]> => {
+        // here we can implement validation and follow fast failing approach 
+        const users: IUser[] = [];
+        if (city.length == 0) {
+            return users;
+        }
+        return await dependecies.usersRepository.GetUsersByCity(city).then((users: IUser[]) => users);
+    }
     return {
         GetAllUsers,
         InsertUsers,
         GetAllKeySkills,
-        GetUsersByState
+        GetUsersByState,
+        GetUsersByCity,
     };
 }
 
