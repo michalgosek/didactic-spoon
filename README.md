@@ -1,5 +1,18 @@
 # didactic-spoon
 
+# Desc
+
+## Fetcher cmd toool: 
+Connects with the API https://random-data-api.com/api/users/ and fetches by default 10 times batch with 100 custom user data 
+provided in JSON format. After parsing data into documents, they are stored in 
+'users' collection in 'mydb' database. 
+
+## Service:
+1. Connects with local database
+2. Allows access for the data by API (endpoints section)
+3. Parses respones and returns them in JSON format
+4. Handles gracefull shutdown
+
 # Before running
 
 1. Start the mongodb docker container and pass the config credetnails into /src/config/config-development.json file. By default MongoDB cli connects with localhost and port 27017
