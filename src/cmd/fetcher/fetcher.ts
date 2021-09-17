@@ -27,6 +27,7 @@ async function Run() {
         const usersArray: IUserDocument[] = converters.convertAPIResponseToArray(data)
         const keySkills = new Set();
         usersArray.forEach(u => keySkills.add(u.employment.key_skill));
+        
         MongoDB.InsertUsers(usersArray)
             .then(() => {
                 DisconnectDataSource().catch((err: Error) => {

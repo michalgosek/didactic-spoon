@@ -206,15 +206,17 @@ Example:
 Expected output:
 ```json
 [
-    "Networking skills",
     "Teamwork",
     "Confidence",
-    "Teamwork",
     "Organisation",
-    "Organisation",
-    "Organisation",
-    "Problem solving",
+    "Self-motivated",
     "Proactive",
-    "Work under pressure"
+    "Fast learner",
+    "Technical savvy",
+    "Work under pressure",
+    "Leadership",
+    "Problem solving",
+    "Networking skills",
+    "Communication"
 ]
 ```

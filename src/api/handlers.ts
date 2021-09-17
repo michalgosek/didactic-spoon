@@ -32,7 +32,7 @@ export const GetUsersByState = (service: IUserCountryLister) => {
                 const url: string = `curl localhost:6060/v1/users/state -d '{"name":"New Hampshire"}' -H "Content-Type: application/json"`;
                 const msg: string = "Provide name in the request body"
                 const hint: Object = util.CreateUserResponseHintJSON(msg, url)
-                util.SendJSONResponse(res, hint, 500);
+                util.SendJSONResponse(res, hint, 400);
             }
             const data = await service.GetUsersByState(state);
             util.SendJSONResponse(res, data, 200);

@@ -53,7 +53,9 @@ export const MongoDB: UserRepository = {
     GetAllKeySkills: async function (): Promise<String[]> {
         let skills: String[] = [];
         await User.find().exec().then((users: IUserDocument[]) => {
-            skills = users.map((u: IUserDocument) => { return u.employment.key_skill; });
+            const mapped : String[] = users.map((u: IUserDocument) => { return u.employment.key_skill});
+            const uniqueSkills: Set<String> = new Set(mapped);
+            skills = [...uniqueSkills];
         });
         return skills;
     },
