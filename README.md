@@ -49,6 +49,69 @@ Example:
  curl localhost:6060/v1/users
 ```
 
+Expected output:
+```json
+[
+    {
+        "uuid": 3970,
+        "first_name": "Rhiannon",
+        "last_name": "Stanton",
+        "email": "rhiannon.stanton@email.com",
+        "gender": "Male",
+        "employment": {
+            "title": "Global IT Manager",
+            "key_skill": "Networking skills"
+        },
+        "address": {
+            "city": "Port Litamouth",
+            "street_name": "Becker Circles",
+            "street_address": "527 Lee Views",
+            "zip_code": "30606",
+            "state": "Connecticut",
+            "country": "United States"
+        }
+    },
+    {
+        "uuid": 7146,
+        "first_name": "Basil",
+        "last_name": "Denesik",
+        "email": "basil.denesik@email.com",
+        "gender": "Male",
+        "employment": {
+            "title": "Chief Retail Coordinator",
+            "key_skill": "Teamwork"
+        },
+        "address": {
+            "city": "Ryanland",
+            "street_name": "Edwin Road",
+            "street_address": "14688 O'Connell Bridge",
+            "zip_code": "28893-2544",
+            "state": "Illinois",
+            "country": "United States"
+        }
+    },
+    {
+        "uuid": 4959,
+        "first_name": "Bailey",
+        "last_name": "Marks",
+        "email": "bailey.marks@email.com",
+        "gender": "Non-binary",
+        "employment": {
+            "title": "Technology Producer",
+            "key_skill": "Confidence"
+        },
+        "address": {
+            "city": "Erdmanhaven",
+            "street_name": "Quitzon Mountain",
+            "street_address": "25687 Schiller Courts",
+            "zip_code": "77747-8823",
+            "state": "Connecticut",
+            "country": "United States"
+        }
+    }
+]
+```
+
 ## Listing users by state names:
 
 Name query parameter is required.
@@ -97,4 +160,20 @@ Name query parameter is required.
 Example:
 ```curl
  curl localhost:6060/v1/users/skills
+```
+
+Expected output:
+```json
+[
+    "Networking skills",
+    "Teamwork",
+    "Confidence",
+    "Teamwork",
+    "Organisation",
+    "Organisation",
+    "Organisation",
+    "Problem solving",
+    "Proactive",
+    "Work under pressure"
+]
 ```
