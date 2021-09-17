@@ -12,14 +12,13 @@ function CreateUserResponseHintJSON(msg: string, hint: string): Object {
 }
 
 function SendJSONResponse(res: Response, data: any, code: number) {
+    res.header("Content-Type", 'application/json');
     try {
-        res.header("Content-Type", 'application/json');
         res.status(code);
         res.send(JSON.stringify(data, null, 4));
     } catch (err) {
         console.log("Response parsing error:", err)
-        res.header("Content-Type", 'application/json');
-        res.status(code);
+        res.status(500);
         res.send(JSON.stringify(InternalServerErrorJSON, null, 4));
     }
 }
