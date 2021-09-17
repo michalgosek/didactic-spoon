@@ -42,12 +42,12 @@ export const config = convict({
     url: {
       doc: 'API url for fetching data',
       format: 'url',
-      default: 'https://random-data-api.com/api/users/random_user?size=10',
+      default: 'https://random-data-api.com/api/users/random_user?size=100',
     },
     times: {
       doc: 'How many times fetcher should send the request',
       format: Number,
-      default: 1,
+      default: 10,
     }
   }
 });

@@ -12,10 +12,10 @@ function CreateRouter(userService: UserRepository): Express {
     router.use(express.urlencoded({ extended: false }));
     /** Takes care of JSON data */
     router.use(express.json());
-
+ 
     /** Routes */
     router.get('/v1/users', handlers.GetAllUsersHandler(userService));
-    router.get('/v1/users/states', handlers.GetUsersByState(userService));
+    router.post('/v1/users/states', handlers.GetUsersByState(userService));
     router.get('/v1/users/skills', handlers.GetAllKeySkill(userService));
 
     

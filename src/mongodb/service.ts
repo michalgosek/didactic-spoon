@@ -72,17 +72,18 @@ export const MongoDB: UserRepository = {
         return IUsers;
     },
     GetAllKeySkills: async function (): Promise<String[]> {
-        let skills : String[] = []
+        let skills: String[] = []
         await User.find().exec().then((users: IUserDocument[]) => {
             skills = users.map((u: IUserDocument) => { return u.employment.key_skill; });
         });
-        return skills; 
+        return skills;
     },
     GetUsersByState: async function (state: String): Promise<IUser[]> {
         const IUsers: IUser[] = [];
-        await User.find().exec().then((users: IUserDocument[]) => {
-            users.forEach((user: IUserDocument) => {
-                if (user.address.state == state) {
+        await User.find({"address.state": state})
+            .exec()
+            .then((users: IUserDocument[]) => {
+                users.forEach((user: IUserDocument) => {
                     const converted: IUser = {
                         uuid: user.uuid,
                         first_name: user.first_name,
@@ -103,9 +104,8 @@ export const MongoDB: UserRepository = {
                         },
                     };
                     IUsers.push(converted);
-                }
+                });
             });
-        });
         return IUsers;
     }
 };

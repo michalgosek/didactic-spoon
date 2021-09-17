@@ -45,13 +45,13 @@ interface IUserCountryLister {
 export const GetUsersByState = (service: IUserCountryLister) => {
     return async (req: Request, res: Response) => {
         try {
-            if (req.query.name == undefined)  {
+            const state: String = req.body.name; 
+            if (state.length == 0) {
                 return res.status(500).json({
                     Error: 'Provide state name query value was undefined',
-                    ExampleCURL: 'curl localhost:6060/v1/users/address?name=united states'
+                    ExampleCURL: `curl localhost:6060/v1/users/states -d '{"name":"New Hampshire"}' -H "Content-Type: application/json"`
                 });
             }
-            const state = req.query.name?.toString();
             const data = await service.GetUsersByState(state);
             return res.status(200).json({
                 users: data

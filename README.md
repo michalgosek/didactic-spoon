@@ -54,7 +54,41 @@ Example:
 Name query parameter is required.
 Example:
 ```curl
- curl localhost:6060/v1/users/states?name=Georgia 
+curl localhost:6060/v1/users/states -d '{"name":"New Hampshire"}' -H "Content-Type: application/json"
+```
+
+Request body: 
+```json
+{
+   "name":"New Hampshire"
+}
+```
+
+Expected output:
+```json
+{
+   "users":[
+      {
+         "uuid":6627,
+         "first_name":"Will",
+         "last_name":"Kessler",
+         "email":"will.kessler@email.com",
+         "gender":"Male",
+         "employment":{
+            "title":"Chief Consultant",
+            "key_skill":"Proactive"
+         },
+         "address":{
+            "city":"South Philomena",
+            "street_name":"Rolfson Hill",
+            "street_address":"810 Hayes Ferry",
+            "zip_code":"05585-0113",
+            "state":"New Hampshire",
+            "country":"United States"
+         }
+      }
+   ]
+}
 ```
 
 ## Listing all key skills:
